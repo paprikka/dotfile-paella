@@ -36,6 +36,7 @@ alias serve-https="ngrok http -bind-tls=true localhost:3000"
 # Copy the current dir to the clipboard
 alias pwdd="pwd | pbcopy"
 alias gs="git status"
+alias gl="git log"
 # Show all yesterday's commits--I use it as a quick reminder of my progress
 # if I'm still half-asleep during the standup:
 alias gly="git log --since=yesterday.0:00am --oneline --decorate"
