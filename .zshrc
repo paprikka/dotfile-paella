@@ -68,3 +68,8 @@ function mkdirp(){
   mkdir $1
   cd $1
 }
+
+function lss() {
+  clear
+  ls
+}
