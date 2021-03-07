@@ -1,6 +1,9 @@
+![I didn't have a logo](./logo.jpg)
+
 ## Overview
 
 The `.zshrc ` file contains a bunch of utilities and aliases that survived my dotfile spring cleaning, which means that I actually use them.
+
 
 You can find the use cases as well as the setup instructions in the dotfile itself. 
 
