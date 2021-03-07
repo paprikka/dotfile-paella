@@ -1,5 +1,3 @@
-# 🦪
-
 ## Overview
 
 The `.zshrc ` file contains a bunch of utilities and aliases that survived my dotfile spring cleaning, which means that I actually use them.
@@ -10,5 +8,4 @@ You can find the use cases as well as the setup instructions in the dotfile itse
 
 I keep the file in `~/.zshrc-custom/.zshrc` and load it using `source ~/.zshrc-custom/.zshrc`.
 
-Honestly, you won't need everything from this list. I'm just really proud to see how small this file has become after a format.
-
+Honestly, you won't need everything from this list.
