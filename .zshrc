@@ -31,7 +31,9 @@ alias nyan="echo '...zzZzz...' && caffeinate -d -i -s -u"
 
 # Expose my local server to the internet and enable HTTPS
 # Source: 
-alias serve-https="ngrok http -bind-tls=true localhost:3000"
+function serve-https() {
+   ngrok http -subdomain $1 -region eu $2 
+}
 
 # Copy the current dir to the clipboard
 alias pwdd="pwd | pbcopy"
