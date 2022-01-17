@@ -3,10 +3,11 @@
 # Source: https://typewritten.dev/#/
 # The line below is required if you're using oh-my-zsh
 ZSH_THEME=""
-TYPEWRITTEN_SYMBOL="λ" # not a Greek letter, but a hand holding a crowbar
-fpath+=$HOME/.zsh/typewritten
-autoload -U promptinit; promptinit
-prompt typewritten
+# TYPEWRITTEN_SYMBOL="λ" # not a Greek letter, but a hand holding a crowbar
+# fpath+=$HOME/.zsh/typewritten
+# autoload -U promptinit; promptinit
+# prompt typewritten
+eval "$(starship init zsh)"
 
 
 # Autoload SSH keys and make passphrases easier to use
@@ -19,6 +20,13 @@ eval "$(ssh-agent -s)" 1> /dev/null
 export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# Load direnv
+# Setup instructions: https://direnv.net/docs/hook.html
+
+eval "$(direnv hook zsh)"
+
+
 
 # Aliases and functions
 # =====================
@@ -42,6 +50,14 @@ alias gl="git log"
 # Show all yesterday's commits--I use it as a quick reminder of my progress
 # if I'm still half-asleep during the standup:
 alias gly="git log --since=yesterday.0:00am --oneline --decorate"
+
+# From: https://github.com/Peltoche/lsd
+
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
 
 # Generate AppStore previews with correct sizes and metadata.
 # 1. Record your device using QuickTime 
