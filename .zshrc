@@ -7,7 +7,10 @@ ZSH_THEME=""
 # fpath+=$HOME/.zsh/typewritten
 # autoload -U promptinit; promptinit
 # prompt typewritten
+
+# Install from https://starship.rs
 eval "$(starship init zsh)"
+
 
 
 # Autoload SSH keys and make passphrases easier to use
