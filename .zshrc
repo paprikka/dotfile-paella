@@ -44,6 +44,13 @@ fi
 # =====================
 
 alias work='cd ~/Developer'
+
+
+# Commit work quickly before cleaning up and squashing
+function wip() {
+  git commit --no-verify -m "wip: $*"
+}
+
 # Prevent my mac from going to sleep
 # The command is called `nyan` because in the past I used 
 # this: https://www.youtube.com/watch?v=SkgTxQm9DWM
