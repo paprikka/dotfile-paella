@@ -30,6 +30,15 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(direnv hook zsh)"
 
 
+# Manage python versions
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
+fi
+
 
 # Aliases and functions
 # =====================
@@ -39,6 +48,10 @@ alias work='cd ~/Developer'
 # The command is called `nyan` because in the past I used 
 # this: https://www.youtube.com/watch?v=SkgTxQm9DWM
 alias nyan="echo '...zzZzz...' && caffeinate -d -i -s -u"
+
+function markdown() {
+  pandoc $1 | lynx -stdin
+}
 
 # Expose my local server to the internet and enable HTTPS
 # Source: 
@@ -61,6 +74,8 @@ alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
 alias lt='ls --tree'
+
+alias intel='arch -x86_64'
 
 # Generate AppStore previews with correct sizes and metadata.
 # 1. Record your device using QuickTime 
@@ -94,3 +109,4 @@ function lss() {
   clear
   ls
 }
+
