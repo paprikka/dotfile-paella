@@ -1,3 +1,5 @@
+export PATH=/opt/homebrew/bin:$PATH
+export PATH=$HOME/bin:$PATH
 
 # Enable the Typewritten prompt
 # Source: https://typewritten.dev/#/
@@ -18,17 +20,10 @@ eval "$(starship init zsh)"
 eval "$(ssh-agent -s)" 1> /dev/null
 #    echo only errors ⤴
 
-# Easily switch between Node versions
-# Source: https://github.com/nvm-sh/nvm
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 # Load direnv
 # Setup instructions: https://direnv.net/docs/hook.html
 
 eval "$(direnv hook zsh)"
-
 
 # Manage python versions
 
@@ -44,13 +39,23 @@ fi
 # =====================
 
 alias work='cd ~/Developer'
-
+alias n='nvim .'
+alias prs='gh pr list --author="@me"'
+alias gc='git commit'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gco='git checkout'
+alias gss='git status -s'
+alias ga='git add'
 
 # Commit work quickly before cleaning up and squashing
 function wip() {
-  git commit --no-verify -m "wip: $*"
+  git commit --no-verify -m "wip: $* [skip ci]"
 }
 
+function yolo() {
+  echo "🐐"
+  ga . && wip $*
+}
 # Prevent my mac from going to sleep
 # The command is called `nyan` because in the past I used 
 # this: https://www.youtube.com/watch?v=SkgTxQm9DWM
@@ -76,13 +81,11 @@ alias gly="git log --since=yesterday.0:00am --oneline --decorate"
 
 # From: https://github.com/Peltoche/lsd
 
-alias ls='lsd'
-alias l='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-alias lt='ls --tree'
-
-alias intel='arch -x86_64'
+alias ls='eza -l --icons'
+alias l='eza --icons -x'
+alias la='eza -a --icons'
+alias lla='eza -la --icons'
+alias lt='eza --tree --icons'
 
 # Generate AppStore previews with correct sizes and metadata.
 # 1. Record your device using QuickTime 
@@ -117,3 +120,33 @@ function lss() {
   ls
 }
 
+# Toggle desktop icons on Mac
+# Source: https://news.ycombinator.com/item?id=36496711
+function  toggledesktop () {
+    if [[ $(defaults read com.apple.finder CreateDesktop) -eq "0" ]]
+    then
+        export SHOWDESKTOP=1;
+        echo "Unhiding Desktop icons"
+    else
+        export SHOWDESKTOP=0;
+        echo "Hiding Desktop icons"
+    fi
+    defaults write com.apple.finder CreateDesktop $SHOWDESKTOP
+    killall Finder
+  }
+
+
+function git_changed() {
+  local base="${1:-origin/dev}"
+  git diff --name-only $(git merge-base HEAD $base) HEAD | tr '\n' ' '
+}
+
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
+
+alias gsw='git switch $(git for-each-ref --sort=-committerdate --format="%(refname:short)" refs/heads/ | fzf)'
+alias gsw-='git switch -'
+
+alias ghostty-config='nvim ~/Library/Application\ Support/com.mitchellh.ghostty/config'
+
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
