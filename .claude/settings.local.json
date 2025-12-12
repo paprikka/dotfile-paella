@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/raf/Developer/idealist/idealist7/**)",
+      "Bash(git_changed:*)",
+      "Bash(grep:*)",
+      "Bash(source:*)",
+      "Bash(zsh:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
