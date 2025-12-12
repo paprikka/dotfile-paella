@@ -138,7 +138,16 @@ function  toggledesktop () {
 
 function git_changed() {
   local base="${1:-origin/dev}"
-  git diff --name-only $(git merge-base HEAD $base) HEAD | tr '\n' ' '
+  shift
+  git diff --name-only $(git merge-base HEAD $base) HEAD -- "$@" | tr '\n' ' '
+}
+
+
+function claude_yolo() {
+  docker run -it --rm \
+    -v $(pwd):/home/claude/workspace \
+    -v $HOME/.claude:/home/claude/.claude \
+  claude-dev
 }
 
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
@@ -146,7 +155,53 @@ function git_changed() {
 alias gsw='git switch $(git for-each-ref --sort=-committerdate --format="%(refname:short)" refs/heads/ | fzf)'
 alias gsw-='git switch -'
 
+function lsn() {
+  local count=${1:-5}
+  ls -snew -n -r --color=always | head -n $count
+}
 alias ghostty-config='nvim ~/Library/Application\ Support/com.mitchellh.ghostty/config'
 
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"
+
+function scribe() {
+  local input="$1"
+
+  if [[ -z "$input" ]]; then
+    echo "Usage: scribe <audio file path>" >&2
+    return 1
+  fi
+
+  if [[ ! -f "$input" ]]; then
+    echo "Error: File not found: $input" >&2
+    return 1
+  fi
+
+  local existing_transcript="${input}.md"
+
+  # Use existing transcript if available
+  if [[ -f "$existing_transcript" ]]; then
+    echo "Using existing transcript: $existing_transcript" >&2
+    cat "$existing_transcript" | llm -t format_transcript
+    return $?
+  fi
+
+  # Create temp file for transcript
+  local temp_transcript
+  temp_transcript=$(mktemp)
+
+  if ! transcribe "$input" "$temp_transcript"; then
+    rm -f "$temp_transcript"
+    echo "Error: Transcription failed" >&2
+    return 1
+  fi
+
+  cat "$temp_transcript" | llm -t format_transcript
+  local result=$?
+  rm -f "$temp_transcript"
+  return $result
+}
+
+
+export PLAYDATE_SDK_PATH="$HOME/Developer/PlaydateSDK"
+export PATH="$PLAYDATE_SDK_PATH/bin:$PATH"
